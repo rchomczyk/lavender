@@ -1,0 +1,3 @@
+plugins {
+    `lavender-java-parent`
+}

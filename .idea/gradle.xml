@@ -23,6 +23,7 @@
             <option value="$PROJECT_DIR$/buildSrc" />
             <option value="$PROJECT_DIR$/lavender-brokers" />
             <option value="$PROJECT_DIR$/lavender-brokers/lavender-broker-common" />
+            <option value="$PROJECT_DIR$/lavender-brokers/lavender-broker-nats" />
             <option value="$PROJECT_DIR$/lavender-codecs" />
             <option value="$PROJECT_DIR$/lavender-codecs/lavender-codec-common" />
             <option value="$PROJECT_DIR$/lavender-codecs/lavender-codec-jackson" />

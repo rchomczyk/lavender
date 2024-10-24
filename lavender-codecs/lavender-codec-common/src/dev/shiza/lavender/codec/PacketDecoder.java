@@ -11,5 +11,5 @@ public interface PacketDecoder {
    * @return decoded packet
    * @param <T> generic type of packet
    */
-  <T extends Packet> T decode(final byte @NotNull [] payload);
+  <T extends Packet> T decode(final byte @NotNull [] payload) throws PacketDecodingException;
 }

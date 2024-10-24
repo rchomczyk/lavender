@@ -16,7 +16,7 @@ final class JacksonPacketEncoder implements PacketEncoder {
   }
 
   @Override
-  public <T extends Packet> byte @NotNull [] encode(final T packet) {
+  public <T extends Packet> byte @NotNull [] encode(final T packet) throws PacketEncodingException {
     try {
       return objectMapper.writeValueAsBytes(packet);
     } catch (final JsonProcessingException exception) {

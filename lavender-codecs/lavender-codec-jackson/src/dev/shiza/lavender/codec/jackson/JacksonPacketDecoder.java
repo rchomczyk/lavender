@@ -16,7 +16,8 @@ final class JacksonPacketDecoder implements PacketDecoder {
   }
 
   @Override
-  public <T extends Packet> T decode(final byte @NotNull [] payload) {
+  public <T extends Packet> T decode(final byte @NotNull [] payload)
+      throws PacketDecodingException {
     try {
       // noinspection unchecked
       return (T) objectMapper.readValue(payload, JacksonPacket.class);

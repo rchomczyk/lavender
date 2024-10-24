@@ -4,5 +4,5 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":lavender-codecs:lavender-codec-common"))
+    implementation(project(":lavender-brokers:lavender-broker-common"))
 }

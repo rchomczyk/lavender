@@ -11,5 +11,5 @@ public interface PacketEncoder {
    * @return encoded packet as binary payload
    * @param <T> generic type of packet
    */
-  <T extends Packet> byte @NotNull [] encode(final T packet);
+  <T extends Packet> byte @NotNull [] encode(final T packet) throws PacketEncodingException;
 }

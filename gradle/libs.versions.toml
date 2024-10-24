@@ -1,0 +1,16 @@
+[versions]
+jupiter = "5.11.3"
+jackson = "2.18.0"
+assertj = "3.26.3"
+annotations = "26.0.1"
+
+[libraries]
+assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj" }
+junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "jupiter" }
+junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "jupiter" }
+jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
+jackson-annotations = { module = "com.fasterxml.jackson.core:jackson-annotations", version.ref = "jackson" }
+jetbrains-annotations = { module = "org.jetbrains:annotations", version.ref = "annotations" }
+
+[bundles]
+jackson = ["jackson-databind", "jackson-annotations"]

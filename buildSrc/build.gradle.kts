@@ -8,6 +8,7 @@ repositories {
 
 dependencies {
     implementation(kotlin("script-runtime"))
+    implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location)) // https://github.com/gradle/gradle/issues/15383
 }
 
 sourceSets {

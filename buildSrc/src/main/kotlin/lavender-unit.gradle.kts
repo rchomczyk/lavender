@@ -6,14 +6,16 @@ plugins {
     `java-library`
 }
 
-dependencies {
-    compileOnly(libs.jetbrains.annotations)
-}
-
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
     }
+}
+
+dependencies {
+    testImplementation(libs.assertj.core)
+    testImplementation(libs.junit.jupiter.api)
+    testRuntimeOnly(libs.junit.jupiter.engine)
 }
 
 sourceSets {
@@ -22,7 +24,11 @@ sourceSets {
         resources.setSrcDirs(emptyList<String>())
     }
     test {
-        java.setSrcDirs(emptyList<String>())
+        java.setSrcDirs(listOf("test"))
         resources.setSrcDirs(emptyList<String>())
     }
+}
+
+tasks.test {
+    useJUnitPlatform()
 }

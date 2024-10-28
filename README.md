@@ -1,6 +1,6 @@
 ## lavender (*lawenda*)
 
-An experimental messaging library, aiming for simplicity and performance.
+An experimental packet messaging library, aiming for simplicity and performance.
 
 ### Get started
 

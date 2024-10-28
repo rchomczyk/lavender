@@ -2,9 +2,9 @@ package dev.shiza.lavender.broker.nats;
 
 import dev.shiza.dew.event.EventBus;
 import dev.shiza.dew.event.EventPublishingException;
-import dev.shiza.dew.result.ResultHandler;
 import dev.shiza.dew.subscription.Subscriber;
 import dev.shiza.dew.subscription.SubscribingException;
+import dev.shiza.lavender.broker.BasePacketBroker;
 import dev.shiza.lavender.broker.ChannelObservingException;
 import dev.shiza.lavender.broker.ChannelPublishingException;
 import dev.shiza.lavender.broker.PacketBrokerClosingException;
@@ -15,10 +15,8 @@ import io.nats.client.Connection;
 import io.nats.client.Message;
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
-final class NatsPacketBrokerImpl implements NatsPacketBroker {
+final class NatsPacketBrokerImpl extends BasePacketBroker<Message> implements NatsPacketBroker {
 
   private final String identity;
   private final PacketCodec packetCodec;
@@ -36,10 +34,7 @@ final class NatsPacketBrokerImpl implements NatsPacketBroker {
     this.packetCodec = packetCodec;
     this.eventBus = eventBus;
     this.eventBus.publisher(Runnable::run);
-    this.eventBus.result(
-        Packet.class,
-        (ResultHandler<Packet, Packet>)
-            (request, response) -> delegateToPacketBroker().accept(request, response));
+    this.eventBus.result(Packet.class, this::delegateToPacketBroker);
     this.requestTtl = requestTtl;
     this.connection = connection;
   }
@@ -74,36 +69,22 @@ final class NatsPacketBrokerImpl implements NatsPacketBroker {
   }
 
   @Override
-  public Consumer<Message> delegateToEventBus() throws PacketOrchestrationException {
-    return message -> {
-      final Packet packet = packetCodec.decoder().decode(message.getData());
-      if (packet.getSource().equals(identity)) {
-        return;
-      }
+  public void delegateToEventBus(final Message message) throws PacketOrchestrationException {
+    final Packet packet = packetCodec.decoder().decode(message.getData());
+    if (packet.getSource().equals(identity)) {
+      return;
+    }
 
-      if (message.getReplyTo() != null) {
-        packet.setTarget(message.getReplyTo());
-      }
+    if (message.getReplyTo() != null) {
+      packet.setTarget(message.getReplyTo());
+    }
 
-      try {
-        eventBus.publish(packet, message.getSubject());
-      } catch (final EventPublishingException exception) {
-        throw new PacketOrchestrationException(
-            "Could not delegate packet to event bus due to unexpected exception.", exception);
-      }
-    };
-  }
-
-  @Override
-  public BiConsumer<Packet, Packet> delegateToPacketBroker() throws PacketOrchestrationException {
-    return (request, response) -> {
-      if (request.getTarget() == null) {
-        throw new PacketOrchestrationException(
-            "Could not delegate packet to packet broker due to missing target.");
-      }
-
-      publish(request.getTarget(), response);
-    };
+    try {
+      eventBus.publish(packet, message.getSubject());
+    } catch (final EventPublishingException exception) {
+      throw new PacketOrchestrationException(
+          "Could not delegate packet to event bus due to unexpected exception.", exception);
+    }
   }
 
   @Override
@@ -129,9 +110,7 @@ final class NatsPacketBrokerImpl implements NatsPacketBroker {
 
   private void observePacketBroker(final Subscriber subscriber) {
     try {
-      connection
-          .createDispatcher(message -> delegateToEventBus().accept(message))
-          .subscribe(subscriber.identity());
+      connection.createDispatcher(this::delegateToEventBus).subscribe(subscriber.identity());
     } catch (final IllegalStateException exception) {
       throw new ChannelObservingException(
           "Could not create dispatcher on channel named %s due to unexpected exception."

@@ -4,5 +4,6 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":lavender-brokers:lavender-broker-common"))
+    api(project(":lavender-brokers:lavender-broker-common"))
+    api(libs.jnats)
 }

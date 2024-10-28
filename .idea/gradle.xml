@@ -27,7 +27,6 @@
             <option value="$PROJECT_DIR$/lavender-codecs" />
             <option value="$PROJECT_DIR$/lavender-codecs/lavender-codec-common" />
             <option value="$PROJECT_DIR$/lavender-codecs/lavender-codec-jackson" />
-            <option value="$PROJECT_DIR$/lavender-common" />
           </set>
         </option>
       </GradleProjectSettings>

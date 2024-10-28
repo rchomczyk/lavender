@@ -5,7 +5,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":lavender-codecs:lavender-codec-common"))
+    api(project(":lavender-codecs:lavender-codec-common"))
     api(libs.bundles.jackson)
 }
 

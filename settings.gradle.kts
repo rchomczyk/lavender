@@ -1,5 +1,4 @@
 rootProject.name = "lavender"
-include(":lavender-common")
 include(":lavender-brokers")
 include(":lavender-brokers:lavender-broker-common")
 include(":lavender-brokers:lavender-broker-nats")

@@ -1,6 +1,7 @@
 plugins {
     `lavender-java`
     `lavender-unit`
+    `lavender-publish`
     `lavender-repositories`
 }
 
@@ -9,3 +10,6 @@ dependencies {
     api(libs.bundles.jackson)
 }
 
+lavenderPublish {
+    artifactId = "lavender-codec-jackson"
+}

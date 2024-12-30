@@ -19,5 +19,5 @@ implementation("dev.shiza:lavender-broker-nats:1.0.0")
 
 ###### Codecs
 ```kotlin
-implementation("dev.shiza:lavender-codec-jackson:1.0.0")
+implementation("dev.shiza:lavender-codec-jackson:1.0.0") 
 ```
